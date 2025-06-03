@@ -1,11 +1,11 @@
 require_relative 'inventory'
 
 class Player
-  attr_reader :inventory
+  attr_reader :inventory, :gold
 
-  def initialize
-    @inventory = Inventory.new
-    @gold = 100 # Початковий капітал гравця
+  def initialize(gold = 100, inventory_items = [])
+    @gold = gold
+    @inventory = Inventory.new(inventory_items) 
   end
 
   def buy(shop, index)
@@ -13,19 +13,23 @@ class Player
     return unless item
 
     if @gold >= item.price
-        @gold -= item.price
-        @inventory.add_item(item) 
-        puts "Куплено #{item.name} за #{item.price}. Залишилось #{@gold} золота."
+      @gold -= item.price
+      @inventory.add_item(item) 
+      puts "Куплено #{item.name} за #{item.price}. Залишилось #{@gold} золота."
     else
-        temp = @gold
-        puts "Недостатньо #{item.price - temp} золота для покупки #{item.name}."
-        shop.return_item(item)
+      temp = @gold
+      puts "Недостатньо #{item.price - temp} золота для покупки #{item.name}."
+      shop.return_item(item)
     end
   end
 
   def show
     puts "Золото: #{@gold}"
-    @inventory.list_items
+    puts @inventory.list_items
+  end
+
+  def inventory_items
+    @inventory.items
   end
 
 end
