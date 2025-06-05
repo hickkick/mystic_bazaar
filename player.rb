@@ -32,4 +32,14 @@ class Player
     @inventory.items
   end
 
+  def sell(shop, index)
+    item = @inventory.remove_item(index)
+    return unless item
+
+    refund = (item.price * 0.6).to_i
+    @gold += refund
+    shop.return_item(item)
+    puts "Продано #{item.name} за #{refund} золота. Тепер у тебе #{@gold} золота."
+  end
+
 end
