@@ -7,7 +7,7 @@ require_relative "save_load"
 puts "Завантажити гру? (y/n)"
 print "> "
 if gets.chomp.downcase == "y" && !SaveLoad.load_game.nil?
-  gold, inv_items, shop_items = SaveLoad.load_game
+  gold, inv_items, shop_items = SaveLoad.load_game.values_at(:gold, :inventory, :shop_items)
   player = Player.new(gold, inv_items)
   start = Shop.new(shop_items)
 else
